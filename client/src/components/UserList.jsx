@@ -9,7 +9,7 @@ import UserCreate from "./UserCreate";
 export default function UserList() {
 
     const [users, setUsers] = useState([]);
-    const [create, setCreate] = useState(false);
+    const [showCreate, setShowCreate] = useState(false);
 
     useEffect(() => {
         userService.getAll()
@@ -21,11 +21,33 @@ export default function UserList() {
 
     const addUserHandler = () => {
         console.log('Add user');
-        setCreate(true);
+        setShowCreate(true);
     }
 
     const closeModalHandler = () => {
-        setCreate(false);
+        setShowCreate(false);
+    }
+
+    const addCreateUser = async (event) => {
+        // stop default refresh
+        event.preventDefault();
+        console.log("create user");
+        // get user data from the create form
+        const formData = new FormData(event.target);
+        const formValues = Object.fromEntries(formData);
+
+        //create new user on server
+        const newUser = await userService.createUser(formValues);
+        // update local state
+        console.log(newUser);
+
+        setUsers(state => [...state, newUser]);
+
+        // close  modal
+        setShowCreate(false);
+        // console.log(formData);
+        // console.log("user list : " + formData.get("firstName"));
+        // console.log("user list : " + Object.fromEntries(formData));
     }
 
 
@@ -36,7 +58,12 @@ export default function UserList() {
 
                 <Search />
 
-                {create && <UserCreate onClose={closeModalHandler}/>}
+                {showCreate &&
+                    (<UserCreate
+                        onClose={closeModalHandler}
+                        onCreate={addCreateUser}
+                    />)
+                }
 
                 <div className="table-wrapper">
                     <div>
