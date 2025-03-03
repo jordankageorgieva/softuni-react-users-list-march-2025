@@ -1,13 +1,21 @@
-export default function UserListItem({ 
+import formatDate from '../utils/dateTimeUtils';
+
+export default function UserListItem({
     firstName,
     lastName,
     email,
     phoneNumber,
     createdAt,
     imageUrl
- }) {
-    
+}) {
 
+    // const dateFormatter = (date) => {
+    //     const date = new Date();
+    //     const formatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'short' });
+    //     const formattedDate = formatter.format(date);
+    //     console.log(formattedDate);
+    //     return formattedDate;
+    // }
 
     return (
         <>
@@ -21,7 +29,7 @@ export default function UserListItem({
                 <td>{email}</td>
                 <td>{phoneNumber}</td>
                 {/* <td>June 28, 2022</td> */}
-                <td>{createdAt}</td>
+                <td>{formatDate(createdAt)}</td>
                 <td className="actions">
                     <button className="btn edit-btn" title="Edit">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square"
