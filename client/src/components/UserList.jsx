@@ -8,7 +8,7 @@ export default function UserList() {
             {/* <!-- Section component  --> */}
             <section className="card users-container">
 
-                <Search />
+                {/* <Search /> */}
 
                 <div className="table-wrapper">
                     <div>
@@ -153,7 +153,7 @@ export default function UserList() {
                 {/* <!-- New user button  --> */}
                 <button className="btn-add btn">Add new user</button>
 
-                <Pagination />
+                {/* <Pagination /> */}
 
             </section>
         </>

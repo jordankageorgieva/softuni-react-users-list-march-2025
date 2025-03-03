@@ -5,21 +5,22 @@ import Footer from './components/Footer'
 import UserList from './components/UserList'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <body>
+      <div>
         
-        <Header />
 
-        <main className="main">          
-          <UserList />
-        </main>
+          <Header />
 
-        <Footer />
+          <main className="main">
+            <UserList />
+          </main>
 
-      </body>
+          <Footer />
+
+        
+      </div>
     </>
   )
 }
