@@ -24,6 +24,10 @@ export default function UserList() {
         setCreate(true);
     }
 
+    const closeModalHandler = () => {
+        setCreate(false);
+    }
+
 
     return (
         <>
@@ -32,7 +36,7 @@ export default function UserList() {
 
                 <Search />
 
-                {create && <UserCreate />}
+                {create && <UserCreate onClose={closeModalHandler}/>}
 
                 <div className="table-wrapper">
                     <div>

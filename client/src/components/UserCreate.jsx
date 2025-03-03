@@ -1,23 +1,23 @@
 import { useState } from 'react';
 
-export default function UserCreate() {
+export default function UserCreate({onClose}) {
     const[cancel, setCencel] = useState(false);
     const[save, setSave] = useState(false);
 
     const handleCancel = () => {
-        setCencel(true);
+        onClose();
     }
 
     return (
         <>
             {/* <!-- Create/Edit Form component  --> */}
             <div className="overlay">
-                <div className="backdrop"></div>
+                <div className="backdrop" onClick={onClose}></div>
                 <div className="modal">
                     <div className="user-container">
                         <header className="headers">
                             <h2>Edit User/Add User</h2>
-                            <button className="btn close">
+                            <button className="btn close" onClick={handleCancel}>
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark"
                                     className="svg-inline--fa fa-xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                                     <path fill="currentColor"
