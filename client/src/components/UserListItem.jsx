@@ -1,4 +1,6 @@
 export default function UserListItem({ user }) {
+
+    console.log(user);
     return (
         <>
             {/* <!-- Table row component --> */}
@@ -7,10 +9,10 @@ export default function UserListItem({ user }) {
                     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
                         alt="Peter's profile" className="image" />
                 </td>
-                <td>Peter</td>
-                <td>Johnson</td>
-                <td>peter@abv.bg</td>
-                <td>0812345678</td>
+                <td>{user.name}</td>  {/* Use the user object to display the user's first name */}
+                <td>{user.name}</td>
+                <td>{user.name}</td>
+                <td>{user.name}</td>
                 <td>June 28, 2022</td>
 
                 <td className="actions">

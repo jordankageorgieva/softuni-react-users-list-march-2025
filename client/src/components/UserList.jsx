@@ -1,8 +1,26 @@
+import { useEffect, useState } from "react";
+
 import Pagination from "./Pagination";
 import Search from "./Search";
 import UserListItem from "./UserListItem";
+import userService from "../services/userService";
 
 export default function UserList() {
+
+    const [users, setUsers] = useState([]);
+
+    console.log('user list: ' + users);
+
+    useEffect(() => {
+        userService.getAll()
+            .then(users => {
+                console.log( "userlist: " + users);
+                setUsers(users);
+            })
+            .catch(err => console.error(err));
+    }, []);
+
+
     return (
         <>
             {/* <!-- Section component  --> */}
@@ -141,10 +159,12 @@ export default function UserList() {
                             </tr>
                         </thead>
                         <tbody>
-
-                            <UserListItem />
+                            {users.length === 0 ? <tr><td colSpan="6">No users found</td></tr> : null}
+                            {users.map(user => <UserListItem key={user._id} user={user} />)}
+    
+                            {/* <UserListItem />
                             <UserListItem />        
-                            <UserListItem />
+                            <UserListItem /> */}
                             
                         </tbody>
                     </table>
