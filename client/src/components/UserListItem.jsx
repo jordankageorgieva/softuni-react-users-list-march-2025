@@ -1,20 +1,19 @@
 export default function UserListItem({ user }) {
+    
 
-    console.log(user);
+
     return (
         <>
-            {/* <!-- Table row component --> */}
             <tr>
                 <td>
                     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
                         alt="Peter's profile" className="image" />
                 </td>
-                <td>{user.name}</td>  {/* Use the user object to display the user's first name */}
-                <td>{user.name}</td>
-                <td>{user.name}</td>
-                <td>{user.name}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
+                <td>{user.phoneNumber}</td>
                 <td>June 28, 2022</td>
-
                 <td className="actions">
                     <button className="btn edit-btn" title="Edit">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square"
