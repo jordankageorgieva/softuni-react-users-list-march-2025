@@ -3,8 +3,8 @@ export default function UserListItem({
     lastName,
     email,
     phoneNumber,
-    _id,
-    date
+    createdAt,
+    imageUrl
  }) {
     
 
@@ -13,14 +13,15 @@ export default function UserListItem({
         <>
             <tr>
                 <td>
-                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                        alt="Peter's profile" className="image" />
+                    <img src={imageUrl}
+                        alt={`${firstName}'s profile`} className="image" />
                 </td>
                 <td>{firstName}</td>
                 <td>{lastName}</td>
                 <td>{email}</td>
                 <td>{phoneNumber}</td>
-                <td>June 28, 2022</td>
+                {/* <td>June 28, 2022</td> */}
+                <td>{createdAt}</td>
                 <td className="actions">
                     <button className="btn edit-btn" title="Edit">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square"
