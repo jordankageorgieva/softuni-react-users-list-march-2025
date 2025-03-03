@@ -158,9 +158,9 @@ export default function UserList() {
                         <tbody>
 
                             {users.length === 0 ? <tr><td colSpan="6">No users found</td></tr> : null}
-                            {users.map(user => <UserListItem 
-                                key={user._id} 
-                                user={user} 
+                            {users.map(user => <UserListItem
+                                key={user._id}
+                                {...user}
                             />)}
 
                         </tbody>

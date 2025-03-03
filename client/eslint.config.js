@@ -33,6 +33,9 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+      // Disable prop-types rule - content-all.js:290  [Deprecation] -ms-high-contrast-adjust is in the process of being deprecated. Please see https://blogs.windows.com/msedgedev/2024/04/29/deprecating-ms-high-contrast/ for tips on updating to the new Forced Colors Mode standard.
+      // https://blog.logrocket.com/validate-react-props-proptypes/#:~:text=React%20PropTypes%20validators%201%20Basic%20types%20Below%20are,3%20Instance%20types%20...%204%20Multiple%20types%20
+      'react-prop-types': 'off',
     },
   },
 ]
