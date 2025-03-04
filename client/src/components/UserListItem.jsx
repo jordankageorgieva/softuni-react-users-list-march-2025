@@ -1,28 +1,25 @@
 import formatDate from '../utils/dateTimeUtils';
 
 export default function UserListItem({
+    _id,
     firstName,
     lastName,
     email,
     phoneNumber,
     createdAt,
-    imageUrl
+    imageUrl,
+    userDetailsShow
 }) {
-
-    // const dateFormatter = (date) => {
-    //     const date = new Date();
-    //     const formatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'short' });
-    //     const formattedDate = formatter.format(date);
-    //     console.log(formattedDate);
-    //     return formattedDate;
-    // }
 
     return (
         <>
             <tr>
                 <td>
-                    <img src={imageUrl}
-                        alt={`${firstName}'s profile`} className="image" />
+                    {imageUrl ? (
+                        <img src={imageUrl} alt={`${firstName}'s profile`} className="image" />
+                    ) : (
+                        <span>No Image</span>
+                    )}
                 </td>
                 <td>{firstName}</td>
                 <td>{lastName}</td>
@@ -48,7 +45,7 @@ export default function UserListItem({
                             </path>
                         </svg>
                     </button>
-                    <button className="btn info-btn" title="Info">
+                    <button className="btn info-btn" title="Info" onClick={() => userDetailsShow(_id)}>
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="info"
                             className="svg-inline--fa fa-info" role="img" xmlns="http://www.w3.org/2000/svg"
                             viewBox="-150 0 512 612">

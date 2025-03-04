@@ -5,11 +5,14 @@ import Search from "./Search";
 import UserListItem from "./UserListItem";
 import userService from "../services/userService";
 import UserCreate from "./UserCreate";
+import UserDetails from "./UserDetails";
 
 export default function UserList() {
 
     const [users, setUsers] = useState([]);
     const [showCreate, setShowCreate] = useState(false);
+    const [showDetails, setShowDetails] = useState(false);
+    const [userIdDetails, setUserIdDetails] = useState([]);
 
     useEffect(() => {
         userService.getAll()
@@ -24,8 +27,12 @@ export default function UserList() {
         setShowCreate(true);
     }
 
-    const closeModalHandler = () => {
+    const closeCreateModalHandler = () => {
         setShowCreate(false);
+    }
+
+    const closeDetailsModalHandler = () => {
+        setShowDetails(false);
     }
 
     const addCreateUser = async (event) => {
@@ -50,6 +57,17 @@ export default function UserList() {
         // console.log("user list : " + Object.fromEntries(formData));
     }
 
+    const userDetailsShow = async(_id) => {
+
+        console.log("Show Info modal" + _id);
+        setUserIdDetails(users.find(user => user._id === _id));
+        
+        // stop default refresh
+        event.preventDefault();
+        // show the screen on the screen
+        setShowDetails(true);
+    }
+
 
     return (
         <>
@@ -60,8 +78,15 @@ export default function UserList() {
 
                 {showCreate &&
                     (<UserCreate
-                        onClose={closeModalHandler}
+                        onClose={closeCreateModalHandler}
                         onCreate={addCreateUser}
+                    />)
+                }
+
+                {showDetails && 
+                    (<UserDetails 
+                        {...userIdDetails}
+                        onClose={closeDetailsModalHandler}
                     />)
                 }
 
@@ -201,6 +226,7 @@ export default function UserList() {
                             {users.map(user => <UserListItem
                                 key={user._id}
                                 {...user}
+                                userDetailsShow={userDetailsShow}
                             />)}
 
                         </tbody>

@@ -11,11 +11,13 @@ export default {
 
     async createUser(user) {
 
-        const {country, city, street, streetNumber, postData} = user;
+        const {country, city, street, streetNumber, ...postData} = user;
 
         postData.address = {country, city, street, streetNumber};
-        postData.createdAt = new Date().toISOString;
-        postData.updatedAt = new Date().toISOString;
+        postData.createdAt = new Date().toISOString();
+        postData.updatedAt = new Date().toISOString();
+
+        console.log(postData.createdAt);
 
         try {
             const baseURL = 'http://localhost:3030/jsonstore/users';
@@ -27,7 +29,7 @@ export default {
                     header: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(user),
+                    body: JSON.stringify(postData),
                 }
             );
 
