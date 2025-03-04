@@ -12,7 +12,8 @@ export default function UserList() {
     const [users, setUsers] = useState([]);
     const [showCreate, setShowCreate] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
-    const [userIdDetails, setUserIdDetails] = useState([]);
+    // const [userIdDetails, setUserIdDetails] = useState([]);
+    const [id, setId] = useState()
 
     useEffect(() => {
         userService.getAll()
@@ -60,7 +61,8 @@ export default function UserList() {
     const userDetailsShow = async(_id) => {
 
         console.log("Show Info modal" + _id);
-        setUserIdDetails(users.find(user => user._id === _id));
+        // setUserIdDetails(users.find(user => user._id === _id));
+        setId(_id);
         
         // stop default refresh
         event.preventDefault();
@@ -85,7 +87,7 @@ export default function UserList() {
 
                 {showDetails && 
                     (<UserDetails 
-                        {...userIdDetails}
+                        _id={id}
                         onClose={closeDetailsModalHandler}
                     />)
                 }

@@ -1,4 +1,5 @@
 export default {
+    
 
     async getAll() {
         const baseURL = 'http://localhost:3030/jsonstore/users';
@@ -7,6 +8,15 @@ export default {
         const result = Object.values(data);
 
         return result;
+    },
+
+    async getUser(_id) {
+        const baseURL = 'http://localhost:3030/jsonstore/users';
+        const response = await fetch(`${baseURL}/${_id}`);
+        
+        const user = await response.json();
+        
+        return user;
     },
 
     async createUser(user) {
