@@ -64,24 +64,34 @@ export default function UserList() {
         // console.log("user list : " + Object.fromEntries(formData));
     }
 
-    const userDetailsShow = async(_id) => {
+    const userDetailsShow = async (_id) => {
 
         console.log("Show Info modal" + _id);
         // setUserIdDetails(users.find(user => user._id === _id));
         setId(_id);
-        
+
         // stop default refresh
         event.preventDefault();
         // show the screen on the screen
         setShowDetails(true);
     }
 
-    const userDeleteShow = () => {
-        console.log("User delete show");
+    const userDeleteShow = async(_id) => {
+        console.log("User delete show" + _id);
         setShowDelete(true);
+        // id to delete
+        setId(_id);
     }
 
-
+    const deleteUser = () => {
+        console.log("delete user " + id);
+        if (userService.deleteUser(id)) {
+            setShowDelete(false);
+            // update user list on the screen
+            setUsers(users.filter(user => user._id !== id));
+        }
+    };
+        
     return (
         <>
             {/* <!-- Section component  --> */}
@@ -91,19 +101,25 @@ export default function UserList() {
 
                 {showCreate &&
                     (<UserCreate
-                        onClose={closeCreateModalHandler}q
+                        onClose={closeCreateModalHandler} q
                         onCreate={addCreateUser}
                     />)
                 }
 
-                {showDetails && 
-                    (<UserDetails 
+                {showDetails &&
+                    (<UserDetails
                         _id={id}
                         onClose={closeDetailsModalHandler}
                     />)
                 }
 
-                {showDelete && <UserDelete onClose={closeDeleteModalHandler}/>}
+                {showDelete &&
+                    <UserDelete
+                        _id={id}
+                        onClose={closeDeleteModalHandler}
+                        deleteUser={deleteUser}
+                    />
+                }
 
                 <div className="table-wrapper">
                     <div>

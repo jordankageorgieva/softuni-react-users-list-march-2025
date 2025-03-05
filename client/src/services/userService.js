@@ -1,5 +1,5 @@
 export default {
-    
+
 
     async getAll() {
         const baseURL = 'http://localhost:3030/jsonstore/users';
@@ -13,17 +13,17 @@ export default {
     async getUser(_id) {
         const baseURL = 'http://localhost:3030/jsonstore/users';
         const response = await fetch(`${baseURL}/${_id}`);
-        
+
         const user = await response.json();
-        
+
         return user;
     },
 
     async createUser(user) {
 
-        const {country, city, street, streetNumber, ...postData} = user;
+        const { country, city, street, streetNumber, ...postData } = user;
 
-        postData.address = {country, city, street, streetNumber};
+        postData.address = { country, city, street, streetNumber };
         postData.createdAt = new Date().toISOString();
         postData.updatedAt = new Date().toISOString();
 
@@ -51,6 +51,30 @@ export default {
 
         } catch (err) {
             console.log(err.message);
+        }
+    },
+
+    async deleteUser(_id) {
+        const isUserDelete = false;
+        try {
+
+            const baseURL = 'http://localhost:3030/jsonstore/users';
+
+            const res = await fetch(
+                `${baseURL}/${_id}`,
+                {
+                    method: 'DELETE'
+                }
+            );
+
+            if (res.ok) {
+                isUserDelete = true;
+            }
+            console.log("isUserDelete : " + isUserDelete);
+            return isUserDelete;
+        } catch (err) {
+            console.log(err.message);
+            return isUserDelete;
         }
     }
 };

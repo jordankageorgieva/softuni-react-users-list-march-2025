@@ -38,7 +38,7 @@ export default function UserListItem({
                             </path>
                         </svg>
                     </button>
-                    <button className="btn delete-btn" title="Delete" onClick={userDeleteShow}>
+                    <button className="btn delete-btn" title="Delete" onClick={() => userDeleteShow(_id)}>
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash"
                             className="svg-inline--fa fa-trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 498 512">
                             <path fill="currentColor"

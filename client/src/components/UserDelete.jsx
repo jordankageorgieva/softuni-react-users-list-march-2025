@@ -1,7 +1,11 @@
+import { useEffect } from "react";
+import userService from "../services/userService";
+
 export default function UserDelete({
-  onClose
+  _id,
+  onClose,
+  deleteUser
 }) {
-  
   return (
     <>
       < div className="overlay" >
@@ -21,7 +25,7 @@ export default function UserDelete({
             </header>
             <div className="actions">
               <div id="form-actions">
-                <button id="action-save" className="btn" type="submit">Delete</button>
+                <button id="action-save" className="btn" type="submit" onClick={() => deleteUser()}>Delete</button>
                 <button id="action-cancel" className="btn" type="button" onClick={onClose}>
                   Cancel
                 </button>

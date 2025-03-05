@@ -18,7 +18,17 @@ export default function UserDetails({
 
     }, [_id]);
 
-    
+    useEffect(() => {
+        userService.getUser(_id).
+            then(result => {
+                setUser(result);
+                console.log('address ' + result.address);
+                setAddress(result.address);
+            });
+
+    });
+
+
     return (
         <>
 
@@ -50,11 +60,14 @@ export default function UserDetails({
                                 </p>
                                 <p>Email: <strong>{user.email}</strong></p>
                                 <p>Phone Number: <strong>{user.phoneNumber}</strong></p>
-                                <p>
-                                    Address:
-                                    <strong> {address.country}, {address.city}, {address.street} {address.streetNumber} </strong>
-                                </p>
-
+                                {address.country &&
+                                    <>
+                                        <p>
+                                            Address:
+                                            <strong> {address.country}, {address.city}, {address.street} {address.streetNumber} </strong>
+                                        </p>
+                                    </>
+                                }
                                 <p>Created on: <strong>{formatDate(user.createdAt)}</strong></p>
                                 {/* {formatDate(user.createdAt)} */}
                                 <p>Modified on: <strong>{formatDate(user.updatedAt)}</strong></p>
