@@ -6,12 +6,14 @@ import UserListItem from "./UserListItem";
 import userService from "../services/userService";
 import UserCreate from "./UserCreate";
 import UserDetails from "./UserDetails";
+import UserDelete from "./UserDelete";
 
 export default function UserList() {
 
     const [users, setUsers] = useState([]);
     const [showCreate, setShowCreate] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
     // const [userIdDetails, setUserIdDetails] = useState([]);
     const [id, setId] = useState()
 
@@ -34,6 +36,10 @@ export default function UserList() {
 
     const closeDetailsModalHandler = () => {
         setShowDetails(false);
+    }
+
+    const closeDeleteModalHandler = () => {
+        setShowDelete(false);
     }
 
     const addCreateUser = async (event) => {
@@ -70,6 +76,11 @@ export default function UserList() {
         setShowDetails(true);
     }
 
+    const userDeleteShow = () => {
+        console.log("User delete show");
+        setShowDelete(true);
+    }
+
 
     return (
         <>
@@ -80,7 +91,7 @@ export default function UserList() {
 
                 {showCreate &&
                     (<UserCreate
-                        onClose={closeCreateModalHandler}
+                        onClose={closeCreateModalHandler}q
                         onCreate={addCreateUser}
                     />)
                 }
@@ -91,6 +102,8 @@ export default function UserList() {
                         onClose={closeDetailsModalHandler}
                     />)
                 }
+
+                {showDelete && <UserDelete onClose={closeDeleteModalHandler}/>}
 
                 <div className="table-wrapper">
                     <div>
@@ -229,6 +242,7 @@ export default function UserList() {
                                 key={user._id}
                                 {...user}
                                 userDetailsShow={userDetailsShow}
+                                userDeleteShow={userDeleteShow}
                             />)}
 
                         </tbody>
