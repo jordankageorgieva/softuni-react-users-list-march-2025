@@ -20,6 +20,8 @@ export default function UserList() {
     const [showEdit, setShowEdit] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchCriteria, setSearchCriteria] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
     useEffect(() => {
         if (users) {
@@ -178,6 +180,17 @@ export default function UserList() {
         }
         return user[searchCriteria].toLowerCase().includes(searchQuery.toLowerCase());
     });
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleItemsPerPageChange = (items) => {
+        setItemsPerPage(items);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
+
+    const paginatedUsers = filteredUsers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     return (
         <>
@@ -349,10 +362,10 @@ export default function UserList() {
                         </thead>
                         <tbody>
 
-                            {filteredUsers.length === 0 ? (
+                            {paginatedUsers.length === 0 ? (
                                 <tr><td colSpan="7">No users found</td></tr>
                             ) : (
-                                filteredUsers.map(user => (
+                                paginatedUsers.map(user => (
                                     <UserListItem
                                         key={user._id}
                                         {...user}
@@ -370,7 +383,13 @@ export default function UserList() {
                 {/* <!-- New user button  --> */}
                 <button className="btn-add btn" onClick={addUserHandler}>Add new user</button>
 
-                <Pagination />
+                <Pagination
+                    totalItems={filteredUsers.length}
+                    itemsPerPage={itemsPerPage}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                />
 
             </section>
         </>
