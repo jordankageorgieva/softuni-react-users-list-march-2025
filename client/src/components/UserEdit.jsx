@@ -1,9 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function UserCreate({
+export default function UserEdit({
+    _id,
+    user,
     onClose,
-    onCreate
+    onEdit
 }) {
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        imageUrl: '',
+        country: '',
+        city: '',
+        street: '',
+        streetNumber: ''
+    });
+
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
+                email: user.email || '',
+                phoneNumber: user.phoneNumber || '',
+                imageUrl: user.imageUrl || '',
+                country: user.address?.country || '',
+                city: user.address?.city || '',
+                street: user.address?.street || '',
+                streetNumber: user.address?.streetNumber || ''
+            });
+        }
+    }, [user]);
+
+    const submitData = () => {
+        console.log("data submit pressed");
+    }
 
     return (
         <>
@@ -13,7 +46,7 @@ export default function UserCreate({
                 <div className="modal">
                     <div className="user-container">
                         <header className="headers">
-                            <h2> Add User</h2>
+                            <h2> {_id ? `Edit User` : `Add User`}</h2>
                             <button className="btn close" onClick={onClose}>
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark"
                                     className="svg-inline--fa fa-xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -23,20 +56,28 @@ export default function UserCreate({
                                 </svg>
                             </button>
                         </header>
-                        <form onSubmit={onCreate}>
+                        <form onSubmit={onEdit}>
                             <div className="form-row">
                                 <div className="form-group">
                                     <label htmlFor="firstName">First name</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-user"></i></span>
-                                        <input id="firstName" name="firstName" type="text" />
+                                        {formData.firstName ?
+                                            <input id="firstName" name="firstName" type="text" defaultValue={formData.firstName} />
+                                            :
+                                            <input id="firstName" name="firstName" type="text" />
+                                        }
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="lastName">Last name</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-user"></i></span>
-                                        <input id="lastName" name="lastName" type="text" />
+                                        {formData.lastName ?
+                                            <input id="lastName" name="lastName" type="text" defaultValue={formData.lastName} />
+                                            :
+                                            <input id="lastName" name="lastName" type="text" />
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -46,14 +87,22 @@ export default function UserCreate({
                                     <label htmlFor="email">Email</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-envelope"></i></span>
-                                        <input id="email" name="email" type="text" />
+                                        {formData.email ?
+                                            <input id="email" name="email" type="text" defaultValue={formData.email} />
+                                            :
+                                            <input id="email" name="email" type="text" />
+                                        }
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="phoneNumber">Phone number</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-phone"></i></span>
-                                        <input id="phoneNumber" name="phoneNumber" type="text" />
+                                        {formData.phoneNumber ?
+                                            <input id="phoneNumber" name="phoneNumber" type="text" defaultValue={formData.phoneNumber} />
+                                            :
+                                            <input id="phoneNumber" name="phoneNumber" type="text" />
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +111,11 @@ export default function UserCreate({
                                 <label htmlFor="imageUrl">Image Url</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-image"></i></span>
-                                    <input id="imageUrl" name="imageUrl" type="text" />
+                                    {formData.imageUrl ?
+                                        <input id="imageUrl" name="imageUrl" type="text" defaultValue={formData.imageUrl} />
+                                        :
+                                        <input id="imageUrl" name="imageUrl" type="text" />
+                                    }
                                 </div>
                             </div>
 
@@ -71,14 +124,23 @@ export default function UserCreate({
                                     <label htmlFor="country">Country</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-map"></i></span>
-                                        <input id="country" name="country" type="text" />
+                                        {formData.country ?
+                                            <input id="country" name="country" type="text" defaultValue={formData.country} />
+                                            :
+                                            <input id="country" name="country" type="text" />
+                                        }
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="city">City</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-city"></i></span>
-                                        <input id="city" name="city" type="text" />
+                                        {console.log('test ' + formData.city)}
+                                        {formData.city ?
+                                            <input id="city" name="city" type="text" defaultValue={formData.city} />
+                                            :
+                                            <input id="city" name="city" type="text" />
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -88,14 +150,22 @@ export default function UserCreate({
                                     <label htmlFor="street">Street</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-map"></i></span>
-                                        <input id="street" name="street" type="text" />
+                                        {formData.street ?
+                                            <input id="street" name="street" type="text" defaultValue={formData.street} />
+                                            :
+                                            <input id="street" name="street" type="text" />
+                                        }
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="streetNumber">Street number</label>
                                     <div className="input-wrapper">
                                         <span><i className="fa-solid fa-house-chimney"></i></span>
-                                        <input id="streetNumber" name="streetNumber" type="text" />
+                                        {formData.streetNumber ?
+                                            <input id="streetNumber" name="streetNumber" type="text" defaultValue={formData.streetNumber} />
+                                            :
+                                            <input id="streetNumber" name="streetNumber" type="text" />
+                                        }
                                     </div>
                                 </div>
                             </div>

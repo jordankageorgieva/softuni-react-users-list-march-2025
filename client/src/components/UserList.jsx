@@ -4,9 +4,10 @@ import Pagination from "./Pagination";
 import Search from "./Search";
 import UserListItem from "./UserListItem";
 import userService from "../services/userService";
-import UserCreate from "./UserCreate";
 import UserDetails from "./UserDetails";
 import UserDelete from "./UserDelete";
+import UserCreate from "./UserCreate";
+import UserEdit from "./UserEdit";
 
 export default function UserList() {
 
@@ -14,24 +15,59 @@ export default function UserList() {
     const [showCreate, setShowCreate] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
-    // const [userIdDetails, setUserIdDetails] = useState([]);
-    const [id, setId] = useState()
+    const [userEdit, setUserEdit] = useState();
+    const [id, setId] = useState();
+    const [showEdit, setShowEdit] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchCriteria, setSearchCriteria] = useState("");
 
     useEffect(() => {
-        userService.getAll()
-            .then(users => {
-                setUsers(users);
-            })
-            .catch(err => console.error(err));
+        if (users) {
+            userService.getAll()
+                .then(users => {
+                    console.log('user:' + users);
+                    if (Array.isArray(users)) {
+                        setUsers(users);
+                    } else {
+                        setUsers([]);
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
     }, []);
+
+    useEffect(() => {
+        console.log("users: " + JSON.stringify(users, false, '\t'));
+        if (users) {
+            userService.getAll()
+                .then(users => {
+                    console.log('user:' + users);
+                    if (Array.isArray(users)) {
+                        setUsers(users);
+                    } else {
+                        setUsers([]);
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
+    }, [id]);
 
     const addUserHandler = () => {
         console.log('Add user');
         setShowCreate(true);
     }
 
-    const closeCreateModalHandler = () => {
-        setShowCreate(false);
+    const closeCreateEditModalHandler = () => {
+        if (showCreate) {
+            setShowCreate(false);
+        }
+
+        if (showEdit) {
+            setShowEdit(false);
+        }
+
     }
 
     const closeDetailsModalHandler = () => {
@@ -64,6 +100,30 @@ export default function UserList() {
         // console.log("user list : " + Object.fromEntries(formData));
     }
 
+    const updateUser = async (event) => {
+        // stop default refresh
+        event.preventDefault();
+        console.log("update user start with id" + id);
+        // get user data from the create form
+        const formData = new FormData(event.target);
+        const formValues = Object.fromEntries(formData);
+
+        //create new user on server
+        console.log("update user start with formValues" + formValues);
+        const updatedUser = await userService.updateUser(id, formValues);
+        // update local state
+        console.log(updatedUser);
+
+        setUsers(state => state.map(user => user._id === id ? updatedUser : user));
+
+        // close  modal
+        setShowEdit(false);
+        
+        // console.log(formData);
+        // console.log("user list : " + formData.get("firstName"));
+        // console.log("user list : " + Object.fromEntries(formData));
+    }
+
     const userDetailsShow = async (_id) => {
 
         console.log("Show Info modal" + _id);
@@ -76,11 +136,13 @@ export default function UserList() {
         setShowDetails(true);
     }
 
-    const userDeleteShow = async(_id) => {
-        console.log("User delete show" + _id);
-        setShowDelete(true);
-        // id to delete
-        setId(_id);
+    const userDeleteShow = async (_id) => {
+        console.log("User delete show " + _id);
+        if (_id) {
+            setShowDelete(true);
+            // id to delete
+            setId(_id);
+        }        
     }
 
     const deleteUser = () => {
@@ -91,18 +153,52 @@ export default function UserList() {
             setUsers(users.filter(user => user._id !== id));
         }
     };
-        
+
+    const userEditShow = (_id) => {
+        console.log("user edit show" + _id);
+        setShowEdit(true);
+        setId(_id);
+
+        const userToEdit = users.find(user => user._id === _id);
+        console.log("user edit show" + userToEdit);
+        setUserEdit(userToEdit);
+
+    };
+
+    const handleSearch = (query, criteria) => {
+        console.log("query is " + query);
+        console.log("criteria is " + criteria);
+        setSearchQuery(query);
+        setSearchCriteria(criteria);
+    };
+
+    const filteredUsers = users.filter(user => {
+        if (!searchCriteria) {
+            return true;
+        }
+        return user[searchCriteria].toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
     return (
         <>
             {/* <!-- Section component  --> */}
             <section className="card users-container">
 
-                <Search />
+                <Search onSearch={handleSearch} />
 
                 {showCreate &&
                     (<UserCreate
-                        onClose={closeCreateModalHandler} q
+                        onClose={closeCreateEditModalHandler}
                         onCreate={addCreateUser}
+                    />)
+                }
+
+                {showEdit &&
+                    (<UserEdit
+                        _id={id}
+                        user={userEdit}
+                        onClose={closeCreateEditModalHandler}
+                        onEdit={updateUser}
                     />)
                 }
 
@@ -253,13 +349,19 @@ export default function UserList() {
                         </thead>
                         <tbody>
 
-                            {users.length === 0 ? <tr><td colSpan="6">No users found</td></tr> : null}
-                            {users.map(user => <UserListItem
-                                key={user._id}
-                                {...user}
-                                userDetailsShow={userDetailsShow}
-                                userDeleteShow={userDeleteShow}
-                            />)}
+                            {filteredUsers.length === 0 ? (
+                                <tr><td colSpan="7">No users found</td></tr>
+                            ) : (
+                                filteredUsers.map(user => (
+                                    <UserListItem
+                                        key={user._id}
+                                        {...user}
+                                        userDetailsShow={userDetailsShow}
+                                        userDeleteShow={userDeleteShow}
+                                        userEditShow={userEditShow}
+                                    />
+                                ))
+                            )}
 
                         </tbody>
                     </table>

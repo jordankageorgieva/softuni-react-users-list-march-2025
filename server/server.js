@@ -1,3 +1,5 @@
+const { time } = require('console');
+
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('http'), require('fs'), require('crypto')) :
     typeof define === 'function' && define.amd ? define(['http', 'fs', 'crypto'], factory) :
@@ -321,6 +323,7 @@
     const actions = {
         get: (context, tokens, query, body) => {
             tokens = [context.params.collection, ...tokens];
+            console.log('Request body time : ' + new Date().getHours() + " : " + new Date().getMinutes() );
             let responseData = data;
             for (let token of tokens) {
                 if (responseData !== undefined) {
