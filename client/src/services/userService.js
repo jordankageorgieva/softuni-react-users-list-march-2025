@@ -2,7 +2,8 @@ export default {
 
 
     async getAll() {
-        const baseURL = 'http://localhost:3001/data/users';
+        // const baseURL = 'http://localhost:3001/data/users';
+        const baseURL = 'https://softuni-react-users-list-march-2025.vercel.app/data/users';
         const response = await fetch(baseURL);
         const data = await response.json(); // parse the response body as JSON
         const result = Object.values(data);
@@ -11,7 +12,8 @@ export default {
     },
 
     async getUser(_id) {
-        const baseURL = 'http://localhost:3001/data/users';
+        // const baseURL = 'http://localhost:3001/data/users';
+        const baseURL = 'https://softuni-react-users-list-march-2025.vercel.app/data/users';
         const response = await fetch(`${baseURL}/${_id}`);
 
         const user = await response.json();
@@ -34,7 +36,8 @@ export default {
         console.log("post data id is " + JSON.stringify(postData));
 
         try {
-            const baseURL = 'http://localhost:3001/data/users';
+            // const baseURL = 'http://localhost:3001/data/users';
+            const baseURL = 'https://softuni-react-users-list-march-2025.vercel.app/data/users';
 
             const res = await fetch(
                 `${baseURL}`,
@@ -81,7 +84,8 @@ export default {
         console.log("update user with data " + JSON.stringify(postData));
 
         try {
-            const baseURL = 'http://localhost:3001/data/users';
+            // const baseURL = 'http://localhost:3001/data/users';
+            const baseURL = 'https://softuni-react-users-list-march-2025.vercel.app/data/users';
 
             const res = await fetch(
                 `${baseURL}/${_id}`,
@@ -123,7 +127,8 @@ export default {
         console.log("user id to delete" + _id);
         try {
 
-            const baseURL = 'http://localhost:3001/data/users';
+            // const baseURL = 'http://localhost:3001/data/users';
+            const baseURL = 'https://softuni-react-users-list-march-2025.vercel.app/data/users';
 
             const res = await fetch(
                 `${baseURL}/${_id}`,
