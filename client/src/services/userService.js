@@ -98,6 +98,7 @@ export default {
             if (contentType && contentType.includes('application/json')) {
                 const resData = await res.json();
                 console.log(resData);
+                
                 return resData;
             } else {
                 const text = await res.text();
@@ -111,7 +112,7 @@ export default {
     },
 
     async deleteUser(_id) {
-        
+
         if (_id === undefined) {
             console.log("user is missing");
 
